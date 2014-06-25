@@ -32,12 +32,12 @@ public class FahreZumKorb {
 		double angle =0;
 		int pos2[] = SucheKorb.position;
 		
-
-		angle=Math.PI/2-Math.acos(Math.abs(pos2[0]-pos[0])/getDistance(pos));
-		if(SucheKorb.pos)
-			angle-=Math.PI/1*4;
+		angle=Math.acos(Math.abs(pos2[0]-pos[0])/getDistance(pos));
+		if(!SucheKorb.pos)
+			angle-=Math.PI/4;
 		else
-			angle+=Math.PI/3*4;
+			angle+=Math.PI/4*3;
+		
 		return angle;
 	}
 	public static double getDistance(int pos[]){
