@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import lejos.nxt.LightSensor;
 import lejos.nxt.UltrasonicSensor;
 
 public class SucheKorb extends Thread {
@@ -8,6 +9,7 @@ public class SucheKorb extends Thread {
 	public static int[] position = new int[2];
 	UltrasonicSensor us;
 	Pilot p;
+	LightSensor ls;
 	ArrayList<Integer> messung;
 	boolean run = true;
 	Karte k;
@@ -16,10 +18,11 @@ public class SucheKorb extends Thread {
 		this.us = c.us;
 		this.p = c.pilot;
 		this.k = c.k;
+		this.ls = c.ls;
 	}
 
 	public void findeKorb() {
-		SucheKorb sk1 = new SucheKorb(new Controlls(k, p, us));
+		SucheKorb sk1 = new SucheKorb(new Controlls(k, p, us,ls));
 
 		
 		int vor=0;
@@ -49,7 +52,7 @@ public class SucheKorb extends Thread {
 
 		if (k.getHigh()[0] == -1) {
 		
-			SucheKorb sk = new SucheKorb(new Controlls(k, p, us));
+			SucheKorb sk = new SucheKorb(new Controlls(k, p, us,ls));
 			sk.run = true;
 			p.travel(997);
 			if (pos) {

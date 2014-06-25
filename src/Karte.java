@@ -64,7 +64,7 @@ public class Karte {
 				 Button.waitForAnyPress();
 				 
 				 double win=0;
-				 if(SucheKorb.pos!)
+				 if(SucheKorb.pos)
 					 win=Math.PI*1.0/4;
 				 else
 					 win=-Math.PI*3.0/4;

@@ -33,7 +33,7 @@ public class Wettkampf {
 	public void run() {
 		//kalibrieren();
 		int run=0;
-		Controlls c = new Controlls(k, p, us);
+		Controlls c = new Controlls(k, p, us,ls);
 
 		SucheKorb sk = new SucheKorb(c);
 		FahreZumKorb fzk = new FahreZumKorb(c);
@@ -42,10 +42,14 @@ public class Wettkampf {
 		SucheKorb.pos=false;
 		
 		sk.findeKorb();
-		this.display(c.k.feld);
+		display(c.k.feld);
 		Button.waitForAnyPress();
+		
 		fzk.fahr();
-		if(1==1)return;
+		fzk.fahreGenau();
+		
+		
+		
 		p.travel(50);
 		p.rotate(180);
 		SucheKorb.pos = true;
@@ -54,8 +58,8 @@ public class Wettkampf {
 		display(k.feld);
 		Button.waitForAnyPress();
 		double distance, angle;
-		distance = fzk.getDistance(k.getHigh());
-		angle = fzk.getRichtung(k.getHigh());
+		distance = FahreZumKorb.getDistance(k.getHigh());
+		angle = FahreZumKorb.getRichtung(k.getHigh());
 		
 		int pos[] = k.getHigh();
 		int pos2[] = new int[2];
