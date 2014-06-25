@@ -12,7 +12,7 @@ public class Wettkampf {
 	Pilot p;
 	LightSensor ls;
 	UltrasonicSensor us;
-	int weiss, schwarz, eigen, gegner;
+	static int weiss, schwarz, eigen, gegner;
 	Karte k;
 
 	public Wettkampf() {
@@ -31,12 +31,13 @@ public class Wettkampf {
 	}
 
 	public void run() {
-		//kalibrieren();
+//		kalibrieren();
 		int run=0;
 		Controlls c = new Controlls(k, p, us,ls);
 
 		SucheKorb sk = new SucheKorb(c);
 		FahreZumKorb fzk = new FahreZumKorb(c);
+		FahreZumEnde fze = new FahreZumEnde(c);
 		SucheKorb.position[0]=30;
 		SucheKorb.position[1]=30;
 		SucheKorb.pos=false;
@@ -46,10 +47,16 @@ public class Wettkampf {
 		Button.waitForAnyPress();
 		
 		fzk.fahr();
+		System.out.println("Ich bin in der Nähe des Korb!");
+		Button.waitForAnyPress();
 		fzk.fahreGenau();
+		System.out.println("Ich bin jetzt genau am Korb!");
+		Button.waitForAnyPress();
+		fze.fahr();
+		System.out.println("Ich bin jetzt an der Linie und links von mir ist das Ziel!");
+		Button.waitForAnyPress();
 		
-		
-		
+		/*
 		p.travel(50);
 		p.rotate(180);
 		SucheKorb.pos = true;
@@ -84,7 +91,7 @@ public class Wettkampf {
 		
 		p.rotate(angle);
 		p.travel(distance);
-		
+		*/
 		
 		
 		

@@ -79,19 +79,19 @@ public class SucheKorb extends Thread {
 
 	public void run() {
 
-//		while (run) {
-//			messung.add(us.getDistance());
-//			try {
-//				Thread.sleep(10);
-//			} catch (InterruptedException e) {
-//
-//			}
-//		}
-		for(int i=0;i<60;i++)
-			messung.add(255);
-		messung.add(30);
-		for(int i=0;i<60;i++)
-			messung.add(255);
+		while (run) {
+			messung.add(us.getDistance());
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+
+			}
+		}
+//		messung.add(30);
+//		for(int i=0;i<60;i++)
+//			messung.add(255);
+//		messung.add(30);
+
 		k.eintragen(messung, position);
 
 	}
