@@ -50,7 +50,7 @@ public class SucheKorb extends Thread {
 
 		}
 
-		if (k.getHigh()[0] == -1) {
+		if (k.getHigh()[0] == 0) {
 		
 			SucheKorb sk = new SucheKorb(new Controlls(k, p, us,ls));
 			sk.run = true;
@@ -64,15 +64,19 @@ public class SucheKorb extends Thread {
 			}
 			p.rotate(vor*90);
 			sk.messung = new ArrayList<Integer>();
+			
+			pos=!pos;
 			sk.start();
 			p.rotate(vor*180);
 			sk.run = false;
+			p.rotate(vor*90);
 			try {
 				sk.join();
 			} catch (InterruptedException e) {
 
 			}
-			p.rotate(vor*90);
+			pos=!pos;
+
 		}
 
 	}
@@ -90,7 +94,11 @@ public class SucheKorb extends Thread {
 //		messung.add(30);
 //		for(int i=0;i<60;i++)
 //			messung.add(255);
+//
+//		for(int i=0;i<30;i++)
+//			messung.add(255);
 //		messung.add(30);
+
 
 		k.eintragen(messung, position);
 

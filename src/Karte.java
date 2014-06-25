@@ -136,8 +136,8 @@ public class Karte {
 					high = feld[i][j];
 				}
 
-		ret[0] = x*10;
-		ret[1] = y*10;
+		ret[0] = (x+1)*10;
+		ret[1] = (y+1)*10;
 		return ret;
 	}
 }
