@@ -64,19 +64,19 @@ public class Karte {
 				 Button.waitForAnyPress();
 				 
 				 double win=0;
-				 if(SucheKorb.pos!)
+				 if(SucheKorb.pos)
 					 win=Math.PI*1.0/4;
 				 else
 					 win=-Math.PI*3.0/4;
 				 
-				x = (arl.get(i) * Math.cos(gpm * i-Math.PI+win));
-				y = (arl.get(i) * Math.sin(gpm * i-Math.PI+win));
+					x = (arl.get(i) * Math.cos(gpm * i-win));
+					y = (arl.get(i) * Math.sin(gpm * i+win));
 				
 				
 				
 				
-				px = (int) ((x + 5) / 10);
-				py = (int) ((y + 5) / 10);
+					px = (int) ((x + 5+SucheKorb.position[0]) / 10)-1;
+					py = (int) ((y + 5+SucheKorb.position[1]) / 10)-1;
 //				System.out.println("Distance:" + arl.get(i));
 //				System.out.println("Angle:" + gpm * i / Math.PI * 180);
 				System.out.println("X: " + px + ", Y: " + py);
@@ -85,7 +85,7 @@ public class Karte {
 				LCD.clear();
 				try {
 					
-					KarteBesetzen(px+SucheKorb.position[0], py+SucheKorb.position[1]);
+					KarteBesetzen(px, py);
 					
 				} catch (Exception e) {
 					System.out.println("error:" + px + "," + py);
