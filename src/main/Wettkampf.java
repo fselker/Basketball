@@ -1,27 +1,22 @@
+package main;
 import javax.microedition.lcdui.Graphics;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
-import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 
 public class Wettkampf {
 
-	Pilot p;
-	LightSensor ls;
-	UltrasonicSensor us;
-	static int weiss, schwarz, eigen, gegner;
-	Karte k;
+	
+	Controlls c;
 
 	public Wettkampf() {
-		p = new Pilot();
-		p.setSpeed(120);
-		p.setRotateSpeed(80);
-		us = new UltrasonicSensor(SensorPort.S1);
-		ls = new LightSensor(SensorPort.S2);
-		k = new Karte();
+		c = new Controlls(new Karte(), new Pilot(), new UltrasonicSensor(SensorPort.S2), new LightSensor(SensorPort.S1));
+		c.pilot = new Pilot();
+		c.pilot.setSpeed(120);
+		c.pilot.setRotateSpeed(80);
 	}
 
 	public static void main(String[] args) {
@@ -33,7 +28,6 @@ public class Wettkampf {
 	public void run() {
 //		kalibrieren();
 		int run=0;
-		Controlls c = new Controlls(k, p, us,ls);
 
 		SucheKorb sk = new SucheKorb(c);
 		FahreZumKorb fzk = new FahreZumKorb(c);
@@ -104,21 +98,21 @@ public class Wettkampf {
 	public void kalibrieren() {
 		System.out.println("weiss");
 		Button.waitForAnyPress();
-		weiss = ls.getNormalizedLightValue();
+		c.weiss = c.ls.getNormalizedLightValue();
 
 		System.out.println("schwarz");
 		Button.waitForAnyPress();
-		schwarz = ls.getNormalizedLightValue();
+		c.schwarz = c.ls.getNormalizedLightValue();
 
 		System.out.println("gegner");
 		Button.waitForAnyPress();
-		gegner = ls.getNormalizedLightValue();
+		c.gegner = c.ls.getNormalizedLightValue();
 
 		System.out.println("eigen");
 		Button.waitForAnyPress();
-		eigen = ls.getNormalizedLightValue();
+		c.eigen = c.ls.getNormalizedLightValue();
 		LCD.clear();
-		System.out.println("Eigen: " + eigen + " Gegner: " + gegner + " Weiss: " + weiss + " schwarz: " + schwarz);
+		System.out.println("Eigen: " + c.eigen + " Gegner: " + c.gegner + " Weiss: " + c.weiss + " schwarz: " + c.schwarz);
 
 	}
 

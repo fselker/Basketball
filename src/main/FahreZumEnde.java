@@ -1,3 +1,4 @@
+package main;
 import lejos.nxt.LightSensor;
 import lejos.nxt.UltrasonicSensor;
 
@@ -18,7 +19,7 @@ public class FahreZumEnde extends Thread{
 		p.forward();
 		//faehrt, bis die linie erreicht wird
 		
-		while(ls.getLightValue()>(Wettkampf.schwarz+Wettkampf.weiss)/2){
+		while(ls.getLightValue()>(Controlls.schwarz+Controlls.weiss)/2){
 			try{
 				Thread.sleep(10);
 			}catch(InterruptedException e){
