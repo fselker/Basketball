@@ -17,10 +17,10 @@ public class Pilot extends DifferentialPilot{
 	}
 	public void rotate(double angle){
 		angle%=360;
-		if(angle>190)
-			angle=angle-360;
-		if(angle<-190);
-			angle=360-angle;
+//		if(angle>190)
+//			angle-=360;
+//		if(angle<-190);
+//			angle+=360;
 		rotated+=angle*356/360;
 		super.rotate(angle*356/360);
 	}

@@ -8,22 +8,16 @@ public class SucheKorb extends Thread {
 
 	public static boolean pos = false;
 	public static int[] position = new int[2];
-	UltrasonicSensor us;
-	Pilot p;
-	LightSensor ls;
+	
 	ArrayList<Integer> messung;
 	boolean run = true;
-	Karte k;
-
+	Controlls c;
 	public SucheKorb(Controlls c) {
-		this.us = c.us;
-		this.p = c.pilot;
-		this.k = c.k;
-		this.ls = c.ls;
+		this.c=c;
 	}
 
 	public void findeKorb() {
-		SucheKorb sk1 = new SucheKorb(new Controlls(k, p, us,ls));
+		SucheKorb sk1 = new SucheKorb(c);
 
 		
 		int vor=0;
@@ -31,46 +25,46 @@ public class SucheKorb extends Thread {
 			vor=-1;
 		else
 			vor=1;
-		p.travel(500);
+		c.pilot.travel(500);
 		if (!pos) {
 			position[0] = 75;
 			position[1] = 75;
 		}else{
-			position[0] = 125;
-			position[1] = 125;	
+			position[0] = 150;
+			position[1] = 120;	
 		}
-		p.rotate(-vor*90);
+		c.pilot.rotate(-vor*90);
 		sk1.messung = new ArrayList<Integer>();
 		sk1.start();
-		p.rotate(vor*180);
+		c.pilot.rotate(vor*180);
 		sk1.run = false;
-		p.rotate(-vor*90);
+		c.pilot.rotate(-vor*90);
 		try {
 			sk1.join();
 		} catch (InterruptedException e) {
 
 		}
 
-		if (k.getHigh()[0] == 0) {
+		if (c.k.getHigh()[0] == 0) {
 		
-			SucheKorb sk = new SucheKorb(new Controlls(k, p, us,ls));
+			SucheKorb sk = new SucheKorb(c);
 			sk.run = true;
-			p.travel(997);
+			c.pilot.travel(997);
 			if (pos) {
 				position[0] = 75;
 				position[1] = 75;
 			}else{
-				position[0] = 125;
-				position[1] = 125;	
+				position[0] = 150;
+				position[1] = 120;	
 			}
-			p.rotate(vor*90);
+			c.pilot.rotate(vor*90);
 			sk.messung = new ArrayList<Integer>();
 			
 			pos=!pos;
 			sk.start();
-			p.rotate(vor*180);
+			c.pilot.rotate(vor*180);
 			sk.run = false;
-			p.rotate(vor*90);
+			c.pilot.rotate(vor*90);
 			try {
 				sk.join();
 			} catch (InterruptedException e) {
@@ -85,7 +79,7 @@ public class SucheKorb extends Thread {
 	public void run() {
 
 		while (run) {
-			messung.add(us.getDistance());
+			messung.add(c.us.getDistance());
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -101,7 +95,7 @@ public class SucheKorb extends Thread {
 //		messung.add(30);
 
 
-		k.eintragen(messung, position);
+		c.k.eintragen(messung, position);
 
 	}
 
