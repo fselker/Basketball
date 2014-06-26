@@ -6,6 +6,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 
 public class Pilot extends DifferentialPilot{
 	double rotated=0;
+	double angle=0;
 	
 	public Pilot(){
 		super(57.0, 115, Motor.B, Motor.A);
@@ -23,6 +24,16 @@ public class Pilot extends DifferentialPilot{
 		rotated+=angle*356/360;
 		super.rotate(angle*356/360);
 	}
+	
+	public void addrotate(double angle){
+		this.angle+=angle;
+	}
+	public void runRotate(){
+		rotate(angle);
+		angle=0;
+	}
+	
+	
 	
 	public void setSpeed(double speed){
 		setTravelSpeed(speed);
