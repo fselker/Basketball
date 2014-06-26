@@ -1,4 +1,5 @@
 import lejos.nxt.LightSensor;
+import lejos.nxt.Motor;
 import lejos.nxt.UltrasonicSensor;
 
 
@@ -13,4 +14,11 @@ public class Controlls {
 		this.us=us;
 		this.ls = ls;
 	}
+	
+	public static void wirf() {
+		int angle = 360;
+		Motor.C.setSpeed(600);
+		Motor.C.rotate(angle);
+	}
+	
 }

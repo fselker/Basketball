@@ -8,7 +8,7 @@ import lejos.nxt.Sound;
 public class FahreZumKorb extends Thread{
 	Controlls con;
 	boolean run=true;
-	ArrayList<Integer> messung;
+	static ArrayList<Integer> messung;
 
 	FahreZumKorb(Controlls c) {
 		con = c;
@@ -75,11 +75,31 @@ public class FahreZumKorb extends Thread{
 	 * dreht sich wieder in Ausgangsstellung
 	 */
 	public void fahreGenau(){
-		con.pilot.rotate(45);
-		this.start();
-		con.pilot.rotate(-90);
-		run=false;
 		
+		messung=new ArrayList<Integer>();
+		FahreZumKorb thread= new FahreZumKorb(con);
+		con.pilot.rotate(90);
+		thread.start();
+		con.pilot.rotate(-180);
+		run=false;
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int dist=40;
+		int rot=0;
+		for(int i=0;i<messung.size();i++)
+			if(messung.get(i)<dist){
+				rot=i;
+				dist=messung.get(i);
+			}
+		con.pilot.rotate(-rot*180/(messung.size()-1));	
+		con.pilot.forward();
+		while(con.us.getDistance()>5);
+		con.pilot.stop();
+		con.wirf();
 		con.pilot.rotate(-con.pilot.rotated);
 		
 	}

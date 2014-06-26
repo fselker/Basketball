@@ -47,8 +47,7 @@ public class Wettkampf {
 		Button.waitForAnyPress();
 		
 		fzk.fahr();
-		wirf();
-		System.out.println("Ich bin in der Nähe des Korb!");
+		System.out.println("Ich bin in der Nï¿½he des Korb!");
 		Button.waitForAnyPress();
 		fzk.fahreGenau();
 		System.out.println("Ich bin jetzt genau am Korb!");
@@ -100,11 +99,7 @@ public class Wettkampf {
 	}
 	
 
-	public static void wirf() {
-		int angle = 360;
-		Motor.C.setSpeed(600);
-		Motor.C.rotate(angle);
-	}
+
 
 	public void kalibrieren() {
 		System.out.println("weiss");
