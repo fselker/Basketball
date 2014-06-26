@@ -3,20 +3,29 @@ import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
+import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 
 
 public class Controlls {
+	
+	public int rotateSpeed=80;
+	public int travelSpeed = 120;
+	
+	
 	public Karte k;
 	public Pilot pilot;
 	public UltrasonicSensor us;
 	public LightSensor ls;
 	public static int weiss, schwarz, eigen, gegner;
-	public Controlls(Karte k, Pilot p, UltrasonicSensor us, LightSensor ls){
-		this.k=k;
-		this.pilot=p;
-		this.us=us;
-		this.ls = ls;
+	public Controlls(){
+		k = new Karte();
+		pilot = new Pilot();
+		us = new UltrasonicSensor(SensorPort.S2);
+		ls = new LightSensor(SensorPort.S1);
+	
+		pilot.setSpeed(travelSpeed);
+		pilot.setRotateSpeed(rotateSpeed);
 	}
 	
 	public static void wirf() {

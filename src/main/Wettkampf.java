@@ -13,10 +13,8 @@ public class Wettkampf {
 	Controlls c;
 
 	public Wettkampf() {
-		c = new Controlls(new Karte(), new Pilot(), new UltrasonicSensor(SensorPort.S2), new LightSensor(SensorPort.S1));
-		c.pilot = new Pilot();
-		c.pilot.setSpeed(120);
-		c.pilot.setRotateSpeed(80);
+		c = new Controlls();
+		
 	}
 
 	public static void main(String[] args) {
@@ -38,10 +36,10 @@ public class Wettkampf {
 		
 		sk.findeKorb();
 		display(c.k.feld);
-		Button.waitForAnyPress();
+		//Button.waitForAnyPress();
 		
 		fzk.fahr();
-		System.out.println("Ich bin in der N�he des Korb!");
+		System.out.println("Ich bin in der Naehe des Korb!");
 		Button.waitForAnyPress();
 		fzk.fahreGenau();
 		System.out.println("Ich bin jetzt genau am Korb!");
@@ -49,6 +47,7 @@ public class Wettkampf {
 		fze.fahr();
 		System.out.println("Ich bin jetzt an der Linie und links von mir ist das Ziel!");
 		Button.waitForAnyPress();
+		fze.fahreGenau();
 		
 		/*
 		p.travel(50);

@@ -6,6 +6,7 @@ import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.SensorPortListener;
 import lejos.nxt.UltrasonicSensor;
+import main.Controlls;
 import main.Pilot;
 
 public class LinienFolger implements SensorPortListener {
@@ -16,7 +17,8 @@ public class LinienFolger implements SensorPortListener {
 	private Pilot p;
 	private PRegler regler;
 	private double baseSpeed = 100, breakFactor = 1, kp = 10;
-	UltrasonicSensor us;
+	public boolean run =true;
+	public int threshold=30;
 
 	public void run() {
 		int aPower = 0, bPower = 0;
@@ -25,11 +27,17 @@ public class LinienFolger implements SensorPortListener {
 						// werte
 		w = sollwert;
 		regler.setSollWert(w);
-		while (!Button.ESCAPE.isDown()) {
+		while (run) {
 
 			x = ls.getLightValue();
 
 			y = regler.getValue(x);
+			System.out.println("X: "+x+ " Y: "+y);
+			if(Math.abs(x-y)>threshold){
+				System.out.println("Ist hier die Ecke?");
+				Button.waitForAnyPress();
+				//hier wird sonst der Linienfolger beendet
+			}
 
 			aPower = ((int) (speed * (baseSpeed - breakFactor * Math.abs(w - x) + y)));
 			bPower = ((int) (speed * (baseSpeed - breakFactor * Math.abs(w - x) - y)));
@@ -66,24 +74,17 @@ public class LinienFolger implements SensorPortListener {
 			sollwert = (schwarz + weiss) / 2;
 			regler.setSollWert(sollwert);
 		}
-		if (us.getDistance() < 15)
-			speed = 0.1;
-		else
-			speed = 1;// =us.getDistance()/255+0.1;
-		System.out.println(speed);
 	}
 
 	public LinienFolger(PRegler r) {
 		ls = new LightSensor(SensorPort.S1);
-		weiss = 0;
-		schwarz = Integer.MAX_VALUE;
+		weiss = Controlls.weiss;
+		schwarz = Controlls.schwarz;
 		p = new Pilot();
 		ls.setFloodlight(true);
 		p.setRotateSpeed(80);
 		p.setTravelSpeed(80);
-		us = new UltrasonicSensor(SensorPort.S2);
 		SensorPort.S1.addSensorPortListener(this);
-		SensorPort.S2.addSensorPortListener(this);
 		regler = r;
 		double par[] = { kp };
 		r.setParameter(par);
