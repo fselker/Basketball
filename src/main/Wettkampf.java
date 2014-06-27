@@ -1,5 +1,9 @@
 package main;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import javax.microedition.lcdui.Graphics;
 
 import lejos.nxt.Button;
@@ -23,6 +27,10 @@ public class Wettkampf {
 
 	public void run() {
 		kalibrieren();
+
+		System.out.println("Kalibriert");
+		System.out.println("Zum Starten druecken");
+		Button.waitForAnyPress();
 		// LinienFolger lf = new LinienFolger(new PRegler());
 		// c.pilot.rotate(360);
 		// // c.pilot.rotate(180);
@@ -32,18 +40,20 @@ public class Wettkampf {
 		// int run=0;
 
 		SucheKorb sk = new SucheKorb(c);
+		SucheKorb sk2 = new SucheKorb(c);
 		FahreZumKorb fzk = new FahreZumKorb(c);
 		FahreZumEnde fze = new FahreZumEnde(c);
+
 		SucheKorb.position[0] = 30;
 		SucheKorb.position[1] = 30;
 		SucheKorb.pos = false;
 
 		sk.findeKorb();
-		display(c.k.feld);
+		Controlls.k.KarteBesetzen(SucheKorb.position[0], SucheKorb.position[1]);
+		// display(Controlls.k.feld);
 		// Button.waitForAnyPress();
-
 		fzk.fahr();
-		System.out.println("Ich bin in der Naehe des Korb!");
+		System.out.println("Ich bin in der Naehe des Korbs!");
 		// Button.waitForAnyPress();
 		fzk.fahreGenau();
 		// System.out.println("Ich bin jetzt genau am Korb!");
@@ -56,25 +66,39 @@ public class Wettkampf {
 		Sound.beep();
 		Button.waitForAnyPress();
 		// stehen im endfeld richtig
-
+		boolean find = false;
 		while (true) {
 			sk = new SucheKorb(c);
 			fzk = new FahreZumKorb(c);
 			fze = new FahreZumEnde(c);
-			if (!SucheKorb.pos) {
-				SucheKorb.position[0] = 160;
-				SucheKorb.position[1] = 140;
+//			if (!SucheKorb.pos) {
+//				SucheKorb.position[0] = 160;
+//				SucheKorb.position[1] = 140;
+//			} else {
+				SucheKorb.position[0] = 30;
+				SucheKorb.position[1] = 30;
+//			}
+			// SucheKorb.pos = !SucheKorb.pos;
+
+			Controlls.tausch();
+			if (!find)
+			{
+				sk2.findeKorb();
+				Controlls.erzeugeGesammt();
 			}
-			else{
-				SucheKorb.position[0] = 20;
-				SucheKorb.position[1] = 20;	
-			}
-			SucheKorb.pos = !SucheKorb.pos;
-			sk.findeKorb();
+			// LCD.clear();
+			// display(c.k.feld);
+			// Button.waitForAnyPress();
+
+			// Controlls.pilot.travel(500);
+			// SucheKorb.position[0]=30;
+			// SucheKorb.position[1]=30;
+
 			fzk.fahr();
 			fzk.fahreGenau();
 			fze.fahr();
 			fze.fahreGenau();
+			find = true;
 			System.out.println("nachfuellen");
 			Button.waitForAnyPress();
 		}
@@ -102,28 +126,24 @@ public class Wettkampf {
 	}
 
 	public void kalibrieren() {
-		System.out.println("weiss");
-		Button.waitForAnyPress();
-		Controlls.weiss = c.ls.getNormalizedLightValue();
-		Controlls.weiss2 = c.ls.getLightValue();
+		try {
+			FileInputStream fiw = new FileInputStream(new File("weiss"));
+			FileInputStream fis = new FileInputStream(new File("schwarz"));
 
-		System.out.println("schwarz");
-		Button.waitForAnyPress();
-		Controlls.schwarz = c.ls.getNormalizedLightValue();
-		Controlls.schwarz2 = c.ls.getLightValue();
+			byte[] wei, sch;
+			wei = new byte[fiw.available()];
 
-		System.out.println("Weiss: " + Controlls.weiss);
-		System.out.println("Schwarz" + Controlls.schwarz);
-		Button.waitForAnyPress();
-		System.out.println("gegner");
-		Button.waitForAnyPress();
-		Controlls.gegner = c.ls.getNormalizedLightValue();
+			sch = new byte[fis.available()];
+			fis.read(wei);
+			fiw.read(sch);
 
-		System.out.println("eigen");
-		Button.waitForAnyPress();
-		Controlls.eigen = c.ls.getNormalizedLightValue();
-		LCD.clear();
-		System.out.println("Eigen: " + Controlls.eigen + " Gegner: " + Controlls.gegner + " Weiss: " + Controlls.weiss + " schwarz: " + Controlls.schwarz);
+			fis.close();
+			fiw.close();
+			Controlls.weiss = Integer.parseInt(new String(wei));
+			Controlls.schwarz = Integer.parseInt(new String(sch));
+		} catch (IOException e) {
+
+		}
 
 	}
 

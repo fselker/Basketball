@@ -1,6 +1,7 @@
 package main;
 import java.util.ArrayList;
 
+import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.UltrasonicSensor;
 
@@ -19,52 +20,52 @@ public class SucheKorb extends Thread {
 	public void findeKorb() {
 		SucheKorb sk1 = new SucheKorb(c);
 
-		
+
 		int vor=0;
 		if(!pos)
 			vor=-1;
 		else
 			vor=1;
-		c.pilot.travel(500);
+		Controlls.pilot.travel(500);
 		if (!pos) {
 			position[0] = 75;
 			position[1] = 75;
 		}else{
-			position[0] = 150;
-			position[1] = 120;	
+			position[0] = 163;
+			position[1] = 134;	
 		}
-		c.pilot.rotate(-vor*90);
+		Controlls.pilot.rotate(-vor*90);
 		sk1.messung = new ArrayList<Integer>();
 		sk1.start();
-		c.pilot.rotate(vor*180);
+		Controlls.pilot.rotate(vor*180);
 		sk1.run = false;
-		c.pilot.rotate(-vor*90);
+		Controlls.pilot.rotate(-vor*90);
 		try {
 			sk1.join();
 		} catch (InterruptedException e) {
 
 		}
 
-		if (c.k.getHigh()[0] == 0) {
+		if (Controlls.k.getHigh()[0] == 0) {
 		
 			SucheKorb sk = new SucheKorb(c);
 			sk.run = true;
-			c.pilot.travel(997);
+			Controlls.pilot.travel(997);
 			if (pos) {
 				position[0] = 75;
 				position[1] = 75;
 			}else{
-				position[0] = 150;
-				position[1] = 120;	
+				position[0] = 163;
+				position[1] = 134;	
 			}
-			c.pilot.rotate(vor*90);
+			Controlls.pilot.rotate(vor*90);
 			sk.messung = new ArrayList<Integer>();
 			
 			pos=!pos;
 			sk.start();
-			c.pilot.rotate(vor*180);
+			Controlls.pilot.rotate(vor*180);
 			sk.run = false;
-			c.pilot.rotate(vor*90);
+			Controlls.pilot.rotate(vor*90);
 			try {
 				sk.join();
 			} catch (InterruptedException e) {
@@ -79,7 +80,7 @@ public class SucheKorb extends Thread {
 	public void run() {
 
 		while (run) {
-			messung.add(c.us.getDistance());
+			messung.add(Controlls.us.getDistance());
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -95,7 +96,7 @@ public class SucheKorb extends Thread {
 //		messung.add(30);
 
 
-		c.k.eintragen(messung, position);
+		Controlls.k.eintragen(messung, position);
 
 	}
 

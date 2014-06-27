@@ -1,7 +1,6 @@
 package main;
 import java.util.ArrayList;
 
-import lejos.nxt.Button;
 import lejos.nxt.LCD;
 
 public class Karte {
@@ -91,7 +90,7 @@ public class Karte {
 					
 				} catch (Exception e) {
 					System.out.println("error:" + px + "," + py);
-					Button.waitForAnyPress();
+//					Button.waitForAnyPress();
 				}
 				// System.out.println("raus");
 				// Button.waitForAnyPress();
@@ -100,7 +99,7 @@ public class Karte {
 
 	}
 
-	private void KarteBesetzen(int px, int py) {
+	public void KarteBesetzen(int px, int py) {
 		if (px > feld.length || px < 0 || py > feld[0].length || py < 0)
 			return;
 		feld[px][py] += 5;

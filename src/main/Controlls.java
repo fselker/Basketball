@@ -9,20 +9,36 @@ import lejos.nxt.UltrasonicSensor;
 
 public class Controlls {
 	
+	private static final int fieldsize=20;
+	
 	public static int rotateSpeed=80;
-	public static int travelSpeed = 150;
+	public static int travelSpeed = 170;
 	
 	
 	public static Karte k;
+	public static Karte kersatz;
 	public static Pilot pilot;
 	public static UltrasonicSensor us;
 	public static LightSensor ls;
 	public static TouchSensor rechts, links;
 	public static int weiss, schwarz, eigen, gegner, weiss2, schwarz2;
 	public static int re=1;
+	private static Karte endfeld1;
+	private static Karte endfeld2;
+	private static boolean pos=true;
+	
+	public static void tausch(){
+		endfeld1=new Karte();
+		endfeld2=new Karte();
+		Karte ker=k;
+		k=kersatz;
+		kersatz=ker;
+		pos=!pos;
+	}
 	
 	public Controlls(){
 		k = new Karte();
+		kersatz= new Karte();
 		pilot = new Pilot();
 		us = new UltrasonicSensor(SensorPort.S2);
 		ls = new LightSensor(SensorPort.S1);
@@ -78,4 +94,19 @@ public class Controlls {
 		return Math.sqrt((pos[0]-pos2[0])*(pos[0]-pos2[0]) + (pos[1]-pos2[1])*(pos[1]-pos2[1]));
 	}
 	
+	public static void erzeugeGesammt(){
+		for(int i=0;i<fieldsize;i++)
+			for(int j=0;j<fieldsize;j++){
+				endfeld2.feld[fieldsize-i][fieldsize-j]=endfeld1.feld[i][j]=k.feld[i][j]+kersatz.feld[fieldsize-i][fieldsize-j];
+			}
+		k=endfeld2;
+		kersatz=endfeld1;
+		pos=true;
+	}
+	public static Karte getEndfeld(){
+		if(pos)
+			return endfeld1;
+		else
+			return endfeld2;
+	}	
 }

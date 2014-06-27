@@ -1,6 +1,7 @@
 package main;
 
 
+import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.robotics.navigation.DifferentialPilot;
 
@@ -17,10 +18,10 @@ public class Pilot extends DifferentialPilot{
 	}
 	public void rotate(double angle){
 		angle%=360;
-//		if(angle>190)
-//			angle-=360;
-//		if(angle<-190);
-//			angle+=360;
+		if(angle>190)
+			angle-=360;
+		else if(angle<-190)
+			angle+=360;
 		rotated+=angle*356/360;
 		super.rotate(angle*356/360);
 	}
@@ -31,6 +32,10 @@ public class Pilot extends DifferentialPilot{
 	public void runRotate(){
 		rotate(angle);
 		angle=0;
+	}
+	public void forceRotate(double angle){
+		rotated+=angle*356/360;
+		super.rotate(angle*356/360);
 	}
 	
 	

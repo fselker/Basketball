@@ -1,7 +1,6 @@
 package main;
 import java.util.ArrayList;
 
-import lejos.nxt.Button;
 import lejos.nxt.Sound;
 
 
@@ -21,14 +20,18 @@ public class FahreZumKorb extends Thread{
 	}
 	
 	public void fahr(){
-		con.pilot.rotated=0;
-		System.out.println("ziel :"+con.k.getHigh()[0]+":"+con.k.getHigh()[1]);
+		Controlls.pilot.rotated=0;
+		System.out.println("ziel :"+Controlls.k.getHigh()[0]+":"+Controlls.k.getHigh()[1]);
 		System.out.println("ich :"+SucheKorb.position[0]+",:"+SucheKorb.position[1]);
 //		Button.waitForAnyPress();
-		con.pilot.rotate(Controlls.getRichtung(con.k.getHigh())/Math.PI*180);
-		System.out.println(Controlls.getDistance(con.k.getHigh()));
-		System.out.println("Winkel:"+Controlls.getRichtung(con.k.getHigh())/Math.PI*180);
-		con.pilot.travel(Controlls.getDistance(con.k.getHigh())*10-100);
+//		Wettkampf.display(Controlls.k.feld);
+//		Button.waitForAnyPress();
+		
+		Controlls.pilot.rotate(Controlls.getRichtung(Controlls.getEndfeld().getHigh())/Math.PI*180);
+		System.out.println(Controlls.getDistance(Controlls.getEndfeld().getHigh()));
+		System.out.println("Winkel:"+Controlls.getRichtung(Controlls.getEndfeld().getHigh())/Math.PI*180);
+		if(Controlls.getDistance(Controlls.getEndfeld().getHigh())*10-200>20)
+			Controlls.pilot.travel(Controlls.getDistance(Controlls.getEndfeld().getHigh())*10-200);
 		Sound.beep();
 //		Button.waitForAnyPress();
 	}
@@ -43,10 +46,12 @@ public class FahreZumKorb extends Thread{
 		
 		messung=new ArrayList<Integer>();
 		FahreZumKorb thread= new FahreZumKorb(con);
-		con.pilot.rotate(90);
+		Controlls.pilot.rotate(90);
+		Controlls.pilot.setRotateSpeed(60);
 		thread.start();
-		con.pilot.rotate(-180);
+		Controlls.pilot.rotate(-180);
 		thread.run=false;
+		Controlls.pilot.setRotateSpeed(Controlls.rotateSpeed);
 		System.out.println("warte auf thread");
 		try {
 			thread.join();
@@ -63,39 +68,36 @@ public class FahreZumKorb extends Thread{
 				dist=messung.get(i);
 			}
 		System.out.println("alle werte ausgewertet");
-		con.pilot.rotate(180-rot*180/(messung.size()-1));
+		Controlls.pilot.rotate(180-rot*180/(messung.size()-1));
 		System.out.println("fahr vorwaerts");
-		con.pilot.forward();
+		Controlls.pilot.forward();
 		System.out.println("fahrt");
+		
 		boolean rechts=false,links;
-		while(!(links=con.links.isPressed()) && !(rechts=con.rechts.isPressed()));
+		while(!(links=Controlls.links.isPressed()) && !(rechts=Controlls.rechts.isPressed())){
+			if(Controlls.ls.getNormalizedLightValue()<(Controlls.schwarz+Controlls.weiss)/2){
+				Controlls.pilot.travel(-300);
+				Controlls.pilot.addrotate(-Controlls.pilot.rotated);
+				return;
+			}
+		}
 		System.out.println("fahr ende");
 		
-		con.pilot.stop();
-		if(links&&!con.rechts.isPressed())
-			con.pilot.rotate(15);
+		Controlls.pilot.stop();
+		if(links&&!Controlls.rechts.isPressed())
+			Controlls.pilot.rotate(15);
 		if(!links&&rechts)
-			con.pilot.rotate(-15);
+			Controlls.pilot.rotate(-15);
 		Controlls.wirf();
-		con.pilot.travel(-100);
-		con.pilot.rotate(-con.pilot.rotated);
+		Controlls.pilot.travel(-190);
+		Controlls.pilot.addrotate(-Controlls.pilot.rotated);
 		
 	}
 	
 	public void run(){
 		while(run){
-			messung.add(con.us.getDistance());				
+			messung.add(Controlls.us.getDistance());				
 		}
 	}
 	
-	public void getPosition(){
-		int min=Integer.MAX_VALUE;
-		int pos=-1;
-//		for()
-		
-		
-		
-		
-	}
-
 }

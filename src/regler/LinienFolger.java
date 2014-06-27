@@ -48,7 +48,7 @@ public class LinienFolger implements SensorPortListener {
 			}
 			if(gut>20)
 				found=true;
-			if(Math.abs(y)<15&& baseSpeed<Controlls.travelSpeed){
+			if(Math.abs(y)<15 && baseSpeed<Controlls.travelSpeed*2){
 				baseSpeed+=10;
 			}
 			
