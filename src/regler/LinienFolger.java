@@ -18,50 +18,48 @@ public class LinienFolger implements SensorPortListener {
 	private LightSensor ls;
 	private Pilot p;
 	private PRegler regler;
-	private double baseSpeed = Controlls.travelSpeed*2, breakFactor = 1.5, kp = 3;
+	private double baseSpeed = Controlls.travelSpeed * 2, breakFactor = 1.5, kp = 3;
 	ArrayList<Double> messungen;
 	UltrasonicSensor us;
 
-
 	public void run() {
-		boolean found=false;
-		int gut=0;
+		boolean found = false;
+		int gut = 0;
 		int aPower = 0, bPower = 0, temp;
 		double x = 0, w = 0, y = 0;
 
 		w = sollwert;
-		
+
 		regler.setSollWert(w);
 
-		while (!Button.ESCAPE.isDown()&&baseSpeed>10) {
+		while (!Button.ESCAPE.isDown() && baseSpeed > 10) {
 
 			x = ls.getLightValue();
-//			messungen.add(x);
+			// messungen.add(x);
 			y = regler.getValue(x);
-			System.out.println("X: "+x+ "Y: "+y);
-			if(y>15 && baseSpeed>10 && found){//dynamisch
-				Sound.beep();//ein beep entspricht einer gefundenen Ecke
-				baseSpeed-=10;
+			System.out.println("X: " + x + "Y: " + y);
+			if (y > 15 && baseSpeed > 10 && found) {// dynamisch
+//				Sound.beep();// ein beep entspricht einer gefundenen Ecke
+				baseSpeed -= 10;
 			}
-			if(Math.abs(y)<15){
+			if (Math.abs(y) < 15) {
 				gut++;
 			}
-			if(gut>20)
-				found=true;
-			if(Math.abs(y)<15 && baseSpeed<Controlls.travelSpeed*2){
-				baseSpeed+=10;
+			if (gut > 20)
+				found = true;
+			if (Math.abs(y) < 15 && baseSpeed < Controlls.travelSpeed * 2) {
+				baseSpeed += 10;
 			}
-			
+
 			aPower = ((int) ((baseSpeed - breakFactor * Math.abs(w - x) + y)));
 			bPower = ((int) ((baseSpeed - breakFactor * Math.abs(w - x) - y)));
-			
-			
-			if(!(Controlls.re==-1)){
+
+			if (!(Controlls.re == -1)) {
 				temp = aPower;
-				aPower=bPower;
-				bPower=temp;
+				aPower = bPower;
+				bPower = temp;
 			}
-				
+
 			Motor.A.setSpeed(aPower);
 			Motor.B.setSpeed(bPower);
 
@@ -75,8 +73,6 @@ public class LinienFolger implements SensorPortListener {
 		}
 
 	}
-
-
 
 	@Override
 	public void stateChanged(SensorPort aSource, int aOldValue, int aNewValue) {
@@ -94,10 +90,10 @@ public class LinienFolger implements SensorPortListener {
 
 	public LinienFolger(PRegler r) {
 		ls = new LightSensor(SensorPort.S1);
-		messungen= new ArrayList<Double>();
+		messungen = new ArrayList<Double>();
 		weiss = 0;
 		schwarz = Integer.MAX_VALUE;
-		p= new Pilot();
+		p = new Pilot();
 		ls.setFloodlight(true);
 		p.setRotateSpeed(Controlls.rotateSpeed);
 		p.setTravelSpeed(Controlls.travelSpeed);
@@ -115,18 +111,18 @@ public class LinienFolger implements SensorPortListener {
 		case 0:
 			kp = value;
 			regler.k_p = kp;
-			System.out.println("Kp gesetzt auf: "+value);
+			System.out.println("Kp gesetzt auf: " + value);
 			break;
 		case 1:
 			baseSpeed = value;
-			System.out.println("Speed gesetzt auf: "+value);
+			System.out.println("Speed gesetzt auf: " + value);
 			break;
 		case 2:
-			breakFactor=value;
-			System.out.println("BF gesetzt auf: "+value);
+			breakFactor = value;
+			System.out.println("BF gesetzt auf: " + value);
 			break;
 		default:
-			System.out.println("Ungueltige Position empfangen: "+pos);
+			System.out.println("Ungueltige Position empfangen: " + pos);
 		}
 	}
 }

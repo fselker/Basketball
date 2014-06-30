@@ -1,4 +1,5 @@
 package main;
+
 import java.util.ArrayList;
 
 import lejos.nxt.LCD;
@@ -32,19 +33,19 @@ public class Karte {
 				y = Math.sqrt(arl.get(i) * arl.get(i) - x * x);
 				px = (int) ((x + 5) / 10);
 				py = (int) ((y + 5) / 10);
-//				System.out.println("Distance:" + arl.get(i));
-//				System.out.println("Angle:" + gpm * i / Math.PI * 180);
-//				System.out.println("X: " + px + ", Y: " + py);
-//				Button.waitForAnyPress();
-//				LCD.clear();
+				// System.out.println("Distance:" + arl.get(i));
+				// System.out.println("Angle:" + gpm * i / Math.PI * 180);
+				// System.out.println("X: " + px + ", Y: " + py);
+				// Button.waitForAnyPress();
+				// LCD.clear();
 				try {
 					if (pos)
 						KarteBesetzen(18 - px, 18 - py);
 					else
 						KarteBesetzen(px + 1, py + 1);
 				} catch (Exception e) {
-//					System.out.println("error:" + px + "," + py);
-//					Button.waitForAnyPress();
+					// System.out.println("error:" + px + "," + py);
+					// Button.waitForAnyPress();
 				}
 				// System.out.println("raus");
 				// Button.waitForAnyPress();
@@ -52,45 +53,44 @@ public class Karte {
 		}
 
 	}
-	
+
 	public void eintragen(ArrayList<Integer> arl, int pos[]) {
-		double gpm = Math.PI / (arl.size()-1);
+		double gpm = Math.PI / (arl.size() - 1);
 		double x = 0;
 		double y = 0;
 		int px, py;
 		for (int i = 0; i < arl.size(); i++) {
-			 if (arl.get(i) < radius) {
-//				 System.out.println(arl.get(i));
-//				 Button.waitForAnyPress();
-				 
-				 double win=0;
-				 if(!SucheKorb.pos)
-					 win=Math.PI*1.0/4;
-				 else
-					 win=-Math.PI*3.0/4;
-				 
-					x = (arl.get(i) * Math.cos(gpm * i-win));
-					y = (arl.get(i) * Math.sin(gpm * i-win));
-				
-				
-				
-					px = (int) Math.round((x + SucheKorb.position[0]) / 10)-1;
-					py = (int) Math.round((y + SucheKorb.position[1]) / 10)-1;
-//				System.out.println("Distance:" + arl.get(i));
-//				System.out.println("Angle:" + gpm * i / Math.PI * 180);
-//				System.out.println("PX: " + px + ", Y: " + py);
-//				System.out.println("SX: " + SucheKorb.position[0] + ", Y: " + SucheKorb.position[1]);
-//				System.out.println("X: " + x + ", Y: " + (y));
-//				Button.waitForAnyPress();
-//				Button.waitForAnyPress();
+			if (arl.get(i) < radius) {
+				// System.out.println(arl.get(i));
+				// Button.waitForAnyPress();
+
+				double win = 0;
+				if (!SucheKorb.pos)
+					win = Math.PI * 1.0 / 4;
+				else
+					win = -Math.PI * 3.0 / 4;
+
+				x = (arl.get(i) * Math.cos(gpm * i - win));
+				y = (arl.get(i) * Math.sin(gpm * i - win));
+
+				px = (int) Math.round((x + SucheKorb.position[0]) / 10) - 1;
+				py = (int) Math.round((y + SucheKorb.position[1]) / 10) - 1;
+				// System.out.println("Distance:" + arl.get(i));
+				// System.out.println("Angle:" + gpm * i / Math.PI * 180);
+				// System.out.println("PX: " + px + ", Y: " + py);
+				// System.out.println("SX: " + SucheKorb.position[0] + ", Y: " +
+				// SucheKorb.position[1]);
+				// System.out.println("X: " + x + ", Y: " + (y));
+				// Button.waitForAnyPress();
+				// Button.waitForAnyPress();
 				LCD.clear();
 				try {
-					
+
 					KarteBesetzen(px, py);
-					
+
 				} catch (Exception e) {
 					System.out.println("error:" + px + "," + py);
-//					Button.waitForAnyPress();
+					// Button.waitForAnyPress();
 				}
 				// System.out.println("raus");
 				// Button.waitForAnyPress();
@@ -136,8 +136,8 @@ public class Karte {
 					high = feld[i][j];
 				}
 
-		ret[0] = (x+1)*10;
-		ret[1] = (y+1)*10;
+		ret[0] = (x + 1) * 10;
+		ret[1] = (y + 1) * 10;
 		return ret;
 	}
 }

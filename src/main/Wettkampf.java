@@ -71,20 +71,19 @@ public class Wettkampf {
 			sk = new SucheKorb(c);
 			fzk = new FahreZumKorb(c);
 			fze = new FahreZumEnde(c);
-//			if (!SucheKorb.pos) {
-//				SucheKorb.position[0] = 160;
-//				SucheKorb.position[1] = 140;
-//			} else {
-				SucheKorb.position[0] = 30;
-				SucheKorb.position[1] = 30;
-//			}
+			// if (!SucheKorb.pos) {
+			// SucheKorb.position[0] = 160;
+			// SucheKorb.position[1] = 140;
+			// } else {
+			SucheKorb.position[0] = 30;
+			SucheKorb.position[1] = 30;
+			// }
 			// SucheKorb.pos = !SucheKorb.pos;
 
 			Controlls.tausch();
-			if (!find)
-			{
+			if (!find) {
 				sk2.findeKorb();
-				Controlls.erzeugeGesammt();
+				//Controlls.erzeugeGesammt();
 			}
 			// LCD.clear();
 			// display(c.k.feld);
@@ -99,6 +98,7 @@ public class Wettkampf {
 			fze.fahr();
 			fze.fahreGenau();
 			find = true;
+			Sound.beep();
 			System.out.println("nachfuellen");
 			Button.waitForAnyPress();
 		}

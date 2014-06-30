@@ -13,10 +13,10 @@ public class FahreZumEnde extends Thread {
 	LinienFolger lf;
 
 	public FahreZumEnde(Controlls c) {
-		k = c.k;
-		p = c.pilot;
-		us = c.us;
-		ls = c.ls;
+		k = Controlls.k;
+		p = Controlls.pilot;
+		us = Controlls.us;
+		ls = Controlls.ls;
 	}
 
 	public void fahr() {
@@ -28,14 +28,12 @@ public class FahreZumEnde extends Thread {
 		// if(SucheKorb.pos)
 		// Controlls.re*=-1;
 
-		p.addrotate(Controlls.re * 40);
-		p.runRotate();
+		p.rotate(Controlls.re * 40);
 		p.forward();
 		// faehrt, bis die linie erreicht wird
 
 		while (ls.getNormalizedLightValue() > (Controlls.schwarz + Controlls.weiss) / 2) {
 			if (Controlls.rechts.isPressed() && Controlls.links.isPressed()) {
-
 
 				p.travel(-20);
 				p.rotate(-90);
